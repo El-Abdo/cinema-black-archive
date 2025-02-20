@@ -1,0 +1,22 @@
+{
+  "name": "cinema-black-archive",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
+    "preact": "^10.25.4",
+    "preact-iso": "^2.9.0"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.1",
+    "@types/node": "^22.13.4",
+    "typescript": "~5.7.2",
+    "vite": "^6.1.0"
+  }
+}
