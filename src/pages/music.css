@@ -1,0 +1,87 @@
+/* General audio player styling */
+audio {
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(45deg, #1e2a47, #4b6cb7); /* Blue gradient */
+    border-radius: 20px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Styling the controls */
+  audio::-webkit-media-controls-panel {
+    background: transparent;
+    border-radius: 20px;
+    color: #fff;
+  }
+  
+  /* Play button */
+  audio::-webkit-media-controls-play-button {
+    background-color: #4b6cb7; /* Blue color */
+    border-radius: 50%;
+    padding: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+  }
+  
+  audio::-webkit-media-controls-play-button:hover {
+    background-color: #3a5f8a; /* Darker blue on hover */
+  }
+  
+  /* Volume slider */
+  audio::-webkit-media-controls-volume-slider {
+    background: #4b6cb7;
+    height: 5px;
+    border-radius: 10px;
+  }
+  
+  audio::-webkit-media-controls-volume-slider:disabled {
+    background: #aaa;
+  }
+  
+  /* Playback rate button */
+  audio::-webkit-media-controls-playback-rate-button {
+    background-color: #1e2a47; /* Dark blue for rate button */
+    border-radius: 8px;
+    padding: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+  }
+  
+  audio::-webkit-media-controls-playback-rate-button:hover {
+    background-color: #0d1a33; /* Darker on hover */
+  }
+  
+  /* Custom progress bar */
+  audio::-webkit-media-controls-progress-bar {
+    background: linear-gradient(90deg, #4b6cb7, #1e2a47); /* Gradient blue color */
+    height: 8px;
+    border-radius: 5px;
+  }
+  
+  /* Change progress bar color when playing */
+  audio[controls]:not([paused])::-webkit-media-controls-progress-bar {
+    background: linear-gradient(90deg, #00bfff, #1e2a47); /* Light blue gradient */
+  }
+  
+  /* Progress bar color when the audio is paused */
+  audio[paused]::-webkit-media-controls-progress-bar {
+    background: linear-gradient(90deg, #ff6347, #4b6cb7); /* Red to blue when paused */
+  }
+  
+  /* Current time and time remaining display */
+  audio::-webkit-media-controls-current-time-display,
+  audio::-webkit-media-controls-time-remaining-display {
+    font-size: 14px;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  /* Focus state styling */
+  audio:focus {
+    box-shadow: 0 0 10px rgba(75, 108, 183, 0.6); /* Blue glow */
+  }
+  

@@ -1,6 +1,7 @@
 import { useContext } from "preact/hooks";
 import { useLocation } from 'preact-iso';
 import { DataContext } from "../context/DataContext";
+import './music.css'
 
 export default function FilmMusicPage() {
     const location = useLocation();
@@ -32,7 +33,7 @@ export default function FilmMusicPage() {
                 {musicUrls.map((url, index) => (
                     <div key={index} class="p-4 border rounded-lg shadow-md">
                     <h2 class="text-lg font-semibold">Track {index + 1}</h2>
-                    <audio controls class="w-full">
+                    <audio id="audioPlayer" controls class="w-full">
                         <source src={url} type="audio/mpeg" />
                         Your browser does not support the audio element.
                     </audio>
