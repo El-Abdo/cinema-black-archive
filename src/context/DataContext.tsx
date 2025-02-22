@@ -21,6 +21,7 @@ interface Film {
 interface DataContextType {
   directors: Record<number, Director>;
   films: Record<number, Film>;
+  music: Record<number, string[]>;
 }
 
 export const DataContext = createContext<DataContextType | null>(null);
@@ -35,6 +36,7 @@ export function DataProvider({ children }: { children: preact.ComponentChildren 
 
       const { data: portraitsData } = await supabase.from("director_portraits").select("director_id, portrait_url");
       const { data: postersData } = await supabase.from("film_posters").select("film_id, poster_url");
+      const { data: musicData } = await supabase.from("music").select("film_id, music_url");
 
       // Organize portraits: Pick a random one per director
       const directorPortraits: Record<number, string> = {};
@@ -59,6 +61,15 @@ export function DataProvider({ children }: { children: preact.ComponentChildren 
       // Map data into lookup objects
       const directors: Record<number, Director> = {};
       const films: Record<number, Film> = {};
+      const music: Record<number, string[]> = {};
+
+
+      musicData?.forEach(({ film_id, music_url }) => {
+        if (!music[film_id]) {
+          music[film_id] = []; 
+        }
+        music[film_id].push(music_url);
+      });
 
       directorsData?.forEach((d) => {
         directors[d.id] = {
@@ -79,7 +90,7 @@ export function DataProvider({ children }: { children: preact.ComponentChildren 
         }
       });
 
-      setData({ directors, films });
+      setData({ directors, films, music });
     }
 
     fetchData();

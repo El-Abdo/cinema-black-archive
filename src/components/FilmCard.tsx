@@ -1,3 +1,6 @@
+import { useLocation } from 'preact-iso';
+
+
 interface FilmProps {
     film: {
       id: number;
@@ -8,11 +11,19 @@ interface FilmProps {
   }
   
   export default function FilmCard({ film }: FilmProps) {
+    const location = useLocation();
+    const path = location.path;
+    const parts = path.split('/');
+    const linkPath = parts[1] === 'director' ? `/film/${film.id}` : `${path}/${film.id}`;
+
+    console.log(path);
     return (
       <div class="border p-4 rounded-lg shadow-lg bg-white">
-        <img src={film.poster_url || "/placeholder.jpg"} alt={film.title} class="w-full h-60 object-cover rounded-md" />
-        <h3 class="text-lg font-bold mt-3">{film.title}</h3>
-        <p class="text-sm text-gray-600">{film.release_year}</p>
+        <a href={`${linkPath}`} class="block">
+          <img src={film.poster_url || "/placeholder.jpg"} alt={film.title} class="w-full h-60 object-cover rounded-md" />
+          <h3 class="text-lg font-bold mt-3">{film.title}</h3>
+        </a> 
+        <p class="text-sm text-gray-600">سنة الصدور: {film.release_year}</p>
       </div>
     );
   }

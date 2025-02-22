@@ -1,10 +1,11 @@
+import FilmCard from "./FilmCard";
 interface DirectorProps {
     director: {
       id: number;
       name: string;
       bio: string;
       portrait_url: string;
-      films: { id: number; title: string; release_year: number }[];
+      films: { id: number; title: string; release_year: number; poster_url: string}[];
     };
   }
   
@@ -15,8 +16,8 @@ interface DirectorProps {
         <h3 class="text-lg font-bold mt-3">{director.name}</h3>
         <p class="text-sm text-gray-600">{director.bio}</p>
         <ul class="text-xs mt-2">
-          {director.films.slice(0, 2).map((film) => (
-            <li key={film.id} class="text-gray-500">{film.title} ({film.release_year})</li>
+          {director.films.map((film) => (
+            <FilmCard key={film.id} film={film} />
           ))}
         </ul>
       </div>
