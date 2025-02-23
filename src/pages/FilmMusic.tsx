@@ -17,10 +17,6 @@ export default function FilmMusicPage() {
         return <p>Film not found.</p>;
     }
 
-    if (!musicUrls) {
-        return <p>urls not found.</p>;
-    }
-
 
     return (
         <div class="p-4">

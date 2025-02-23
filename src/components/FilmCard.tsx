@@ -16,7 +16,6 @@ interface FilmProps {
     const parts = path.split('/');
     const linkPath = parts[1] === 'director' ? `/film/${film.id}` : `${path}/${film.id}`;
 
-    console.log(path);
     return (
       <div class="border p-4 rounded-lg shadow-lg bg-white">
         <a href={`${linkPath}`} class="block">

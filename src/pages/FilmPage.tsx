@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "preact/hooks";
 import { supabase } from "../utils/supabase";
 import { useLocation } from "preact-iso";
 import { DataContext } from "../context/DataContext";
+import NotFound from "./NotFound";
 
 interface Image {
   url: string;
@@ -18,7 +19,7 @@ export default function FilmPage() {
   // Get film details from context
   if (!data) return <p>Loading...</p>;
   const film = data.films[filmId];
-  if (!film) return <p>Film not found.</p>;
+  if (!film) return <NotFound />;
 
   useEffect(() => {
     async function fetchImages() {

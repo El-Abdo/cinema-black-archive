@@ -1,12 +1,9 @@
 import { useContext } from "preact/hooks";
 import { DataContext } from "../context/DataContext";
 import FilmCard from "../components/FilmCard";
+import NotFound from "./NotFound";
 
-interface MusicPageProps {
-  setSelectedFilm: (film: any) => void;
-}
-
-export default function MusicPage({ setSelectedFilm }: MusicPageProps) {
+export default function MusicPage() {
   const data = useContext(DataContext);
 
   if (!data) {
@@ -18,13 +15,13 @@ export default function MusicPage({ setSelectedFilm }: MusicPageProps) {
     <div class="p-4">
       <h1 class="text-2xl font-bold mb-4">Music from Films</h1>
       {filmIdsWithMusic.length === 0 ? (
-        <p>No films with music available.</p>
+        <NotFound />
       ) : (
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filmIdsWithMusic.map((filmId) => {
             const film = data.films[Number(filmId)];
             return (
-              <button key={film.id} onClick={() => setSelectedFilm(film)}>
+              <button key={film.id}>
                 <FilmCard film={film} />
               </button>
             );
