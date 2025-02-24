@@ -1,7 +1,8 @@
 import { useContext } from "preact/hooks";
 import { useLocation } from 'preact-iso';
 import { DataContext } from "../context/DataContext";
-import './music.css'
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
 export default function FilmMusicPage() {
     const location = useLocation();
@@ -13,30 +14,21 @@ export default function FilmMusicPage() {
     const film = data.films[Number(filmId)];
     const musicUrls = data.music[Number(filmId)] || [];
 
-    if (!film) {
-        return <p>Film not found.</p>;
-    }
-
-
     return (
-        <div class="p-4">
-            <h1 class="text-2xl font-bold">{film.title} - Soundtrack</h1>
-            <img src={film.poster_url} alt={film.title} class="w-full h-64 object-cover rounded-md mb-4" />
-            {musicUrls.length === 0 ? (
-                <p>No music available for this film.</p>
-            ) : (
-                <div class="space-y-4">
+        <div className="bg-gray-900 text-white p-6">
+            <h1 className="text-3xl font-bold mb-4">{film.title} - Soundtrack</h1>
+            <img src={film.poster_url} alt={film.title} class="w-full object-cover rounded-lg mb-6" />
+                <div className="space-y-6">
                 {musicUrls.map((url, index) => (
-                    <div key={index} class="p-4 border rounded-lg shadow-md">
-                    <h2 class="text-lg font-semibold">Track {index + 1}</h2>
-                    <audio id="audioPlayer" controls class="w-full">
-                        <source src={url} type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                    </audio>
+                    <div key={index} class="p-6 border border-gray-700 rounded-lg shadow-xl">
+                        <h2 className="text-xl font-semibold mb-4">Track {index + 1}</h2>
+                        <AudioPlayer
+                            src={url}
+                            className="bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl"
+                        />
                     </div>
                 ))}
                 </div>
-            )}
         </div>
     );
 }
