@@ -1,6 +1,7 @@
 import { useContext } from 'preact/hooks';
 import { DataContext } from '../context/DataContext';
 import Search from '../components/Search';
+import DirectorCard from '../components/DirectorCard';
 
 export default function Home() {
   const data = useContext(DataContext); 
@@ -15,12 +16,9 @@ export default function Home() {
       <Search /> 
       <div className="directors-list">
         {Object.values(directors).slice(9, 29).map((director) => (
-          <div key={director.id}>
             <a href={`/director/${director.id}`}>
-              <img src={director.portrait_url} alt={director.name} width="150" />
-              <h2>{director.name}</h2>
+              <DirectorCard director={director} />
             </a>
-          </div>
         ))}
       </div>
     </div>
