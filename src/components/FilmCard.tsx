@@ -14,7 +14,7 @@ interface FilmProps {
     const location = useLocation();
     const path = location.path;
     const parts = path.split('/');
-    const linkPath = parts[1] === 'director' ? `/film/${film.id}` : `${path}/${film.id}`;
+    const linkPath = parts[1] === 'directors' ? `/films/${film.id}` : `${path}/${film.id}`;
 
     return (
       <div class="border p-4 rounded-lg shadow-lg bg-white">

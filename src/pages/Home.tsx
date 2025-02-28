@@ -12,11 +12,10 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Directors Archive</h1>
       <Search /> 
       <div className="directors-list">
         {Object.values(directors).slice(9, 29).map((director) => (
-            <a href={`/director/${director.id}`}>
+            <a href={`/directors/${director.id}`}>
               <DirectorCard director={director} />
             </a>
         ))}
