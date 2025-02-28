@@ -11,15 +11,15 @@ export default function DirectorPage() {
   if (!data) return <p>Loading...</p>;
 
   const director = data.directors[directorId];
-  const films = director.films || {};
-  
+  const films = director.filmIds.map((id) => data.films[id]).filter(Boolean);
+
   if (!director) return <NotFound/>;
 
   return (
     <>
     <div class="p-6 flex flex-col lg:flex-row gap-6 items-start justify-end">
             <img 
-                src={director.portrait_url} 
+                src={director.portrait_url || "/Portrait_Placeholder.png"}
                 alt={director.name} 
                 class="w-40 h-40 object-cover rounded-full border border-gray-300 shadow-md"
             />

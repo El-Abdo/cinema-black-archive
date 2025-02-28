@@ -48,7 +48,7 @@ export default function FilmPage() {
         </div>
       </div>
 
-      <h2>Film Frames</h2>
+      <h2>فوتوغرافيا الفيلم</h2>
       <div class="grid">
         {frames.map((frame) => (
           <img src={frame.url} alt="Frame" class="film-frame" />
@@ -57,7 +57,7 @@ export default function FilmPage() {
 
       {btsImages.length > 0 && (
         <>
-          <h2>Behind The Scenes</h2>
+          <h2>كواليس</h2>
           <div class="grid">
             {btsImages.map((image) => (
               <img src={image.url} alt="BTS" class="bts-image" />

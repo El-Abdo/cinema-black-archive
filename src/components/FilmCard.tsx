@@ -20,9 +20,9 @@ interface FilmProps {
       <div class="border p-4 rounded-lg shadow-lg bg-white">
         <a href={`${linkPath}`} class="block">
           <img src={film.poster_url || "/placeholder.jpg"} alt={film.title} class="w-full h-60 object-cover rounded-md" />
-          <h3 class="text-lg font-bold mt-3">{film.title}</h3>
+          <h3 class="text-lg font-bold mt-3 text-center">{film.title}</h3>
         </a> 
-        <p class="text-sm text-gray-600">سنة الصدور: {film.release_year}</p>
+        <p class="text-sm text-gray-600 text-center">سنة الصدور: {film.release_year}</p>
       </div>
     );
   }

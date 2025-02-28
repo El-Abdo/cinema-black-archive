@@ -7,11 +7,12 @@ interface Director {
   name: string;
   bio: string;
   portrait_url: string;
-  films: Film[];
+  filmIds: number[];
 }
 
 interface Film {
   id: number;
+  director_id: number;
   title: string;
   description: string;
   release_year: number;
@@ -33,49 +34,44 @@ export function DataProvider({ children }: { children: preact.ComponentChildren 
     async function fetchData() {
       const { data: directorsData } = await supabase.from("directors").select("id, name, bio");
       const { data: filmsData } = await supabase.from("films").select("id, title, description, release_year, director_id");
-
       const { data: portraitsData } = await supabase.from("director_portraits").select("director_id, portrait_url");
       const { data: postersData } = await supabase.from("film_posters").select("film_id, poster_url");
       const { data: musicData } = await supabase.from("music").select("film_id, music_url");
 
-      // Organize portraits: Pick a random one per director
+      // Organize portraits
       const directorPortraits: Record<number, string> = {};
-      if (portraitsData) {
-        portraitsData.forEach(({ director_id, portrait_url }) => {
-          if (!directorPortraits[director_id]) {
-            directorPortraits[director_id] = portrait_url;
-          }
-        });
-      }
+      portraitsData?.forEach(({ director_id, portrait_url }) => {
+        if (!directorPortraits[director_id]) {
+          directorPortraits[director_id] = portrait_url;
+        }
+      });
 
-      // Organize posters: Pick a random one per film
+      // Organize posters
       const filmPosters: Record<number, string> = {};
-      if (postersData) {
-        postersData.forEach(({ film_id, poster_url }) => {
-          if (!filmPosters[film_id]) {
-            filmPosters[film_id] = poster_url;
-          }
-        });
-      }
+      postersData?.forEach(({ film_id, poster_url }) => {
+        if (!filmPosters[film_id]) {
+          filmPosters[film_id] = poster_url;
+        }
+      });
 
-      // Map data into lookup objects
-      const directors: Record<number, Director> = {};
-      const films: Record<number, Film> = {};
+      // Organize music data
       const music: Record<number, string[]> = {};
-
-
       musicData?.forEach(({ film_id, music_url }) => {
         if (!music[film_id]) {
-          music[film_id] = []; 
+          music[film_id] = [];
         }
         music[film_id].push(music_url);
       });
+
+      // Create director and film records
+      const directors: Record<number, Director> = {};
+      const films: Record<number, Film> = {};
 
       directorsData?.forEach((d) => {
         directors[d.id] = {
           ...d,
           portrait_url: directorPortraits[d.id] || "",
-          films: [],
+          filmIds: [], // Store only film IDs
         };
       });
 
@@ -85,8 +81,9 @@ export function DataProvider({ children }: { children: preact.ComponentChildren 
           poster_url: filmPosters[f.id] || "",
         };
         films[f.id] = film;
+
         if (directors[f.director_id]) {
-          directors[f.director_id].films.push(film);
+          directors[f.director_id].filmIds.push(f.id); // Store only film ID
         }
       });
 

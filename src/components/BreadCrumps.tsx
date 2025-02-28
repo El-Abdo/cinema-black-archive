@@ -8,10 +8,7 @@ const Breadcrumbs = () => {
     const films = data?.films || {};
     const directors = data?.directors || {};
     const pathParts = location.path.split('/').filter(Boolean);
-
-    console.log(data);
-    console.log(films);
-  
+ 
     const getDynamicContent = (part: string, type: string) => {
         // Check if part is a number (i.e., an ID).
         const id = parseInt(part, 10);
