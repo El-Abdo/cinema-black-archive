@@ -25,37 +25,43 @@ const Header = () => {
                 breadcrumbs.push({ name: directors[id].name, url: `/directors/${id}` });
             } else if (prevPart === "films" && films[id]) {
                 breadcrumbs.push({ name: films[id].title, url: `/films/${films[id].title.replace(/\s+/g, "-")}` });
-
                 const director = directors[films[id].director_id];
                 if (director) {
                     breadcrumbs.unshift({ name: director.name, url: `/directors/${films[id].director_id}` });
+                    breadcrumbs.unshift({ name: "المخرجين", url: "/directors" });
                 }
             }
+        } else if (part === "directors") {
+            breadcrumbs.push({ name: "المخرجين", url: "/directors" });
         }
     });
 
     return (
         <header class="bg-black sticky top-0 w-full z-50">
-            <div class="container mx-auto flex items-center justify-between">
-                <span class="mr-2">
-                    <img src="/IMG_6062.ico" alt="Icon" class="w-20 h-20" />
+          <div class="container mx-auto flex items-center justify-between p-4 sm:p-6">
+            
+            <span class="flex-shrink-0">
+              <img src="/IMG_6062.ico" alt="Icon" class="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20" />
+            </span>
+            
+            <nav class="text-xs sm:text-sm md:text-base flex flex-wrap items-center gap-2 rtl flex-row-reverse text-amber-400">
+              <a href="/" class="hover:underline whitespace-nowrap">الصفحة الرئيسية</a>
+              {breadcrumbs.map((crumb, index) => (
+                <span key={index} class="flex items-center">
+                  {index < breadcrumbs.length - 1 ? (
+                    <a href={crumb.url} class="hover:underline whitespace-nowrap">{crumb.name}</a>
+                  ) : (
+                    <span class="text-gray-300 whitespace-nowrap">{crumb.name}</span>
+                  )}
+                  {index < breadcrumbs.length  && <span class="text-white mx-1">/</span>}
                 </span>
-                <nav class="text-sm md:text-base flex items-center space-x-2 rtl flex-row-reverse">
-                    <a href="/" class="text-amber-400 hover:underline">الصفحة الرئيسية</a> 
-                    {breadcrumbs.map((crumb, index) => (
-                        <span key={index} class="flex items-center">
-                            {index < breadcrumbs.length - 1 ? (
-                                <a href={crumb.url} class="text-amber-400 hover:underline">{crumb.name}</a>
-                            ) : (
-                                <span class="text-gray-300">{crumb.name}</span>
-                            )}
-                            {index < breadcrumbs.length && <span class="text-white">/</span>}
-                        </span>
-                    ))}
-                </nav>
-            </div>
+              ))}
+            </nav>
+            
+          </div>
         </header>
-    );
+      );
+      
 };
 
 export default Header;
