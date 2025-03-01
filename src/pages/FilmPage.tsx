@@ -39,32 +39,68 @@ export default function FilmPage() {
   }, [filmId]);
 
   return (
-    <div class="film-container">
-      <div class="film-header">
-        <img src={film.poster_url} alt={film.title} class="film-poster" />
-        <div>
-          <h1>{film.title}</h1>
-          <p>{film.description}</p>
+    <div class="p-4 sm:p-6 max-w-screen-xl mx-auto">
+      
+      {/* Film Header */}
+      <div class="flex flex-col lg:flex-row items-start gap-6">
+        {/* Film Poster */}
+        <img 
+          src={film.poster_url} 
+          alt={film.title} 
+          class="w-full sm:w-60 md:w-80 object-cover rounded-lg shadow-lg"
+        />
+  
+        {/* Film Info */}
+        <div class="flex-1 text-right">
+          <h1 class="text-xl sm:text-2xl md:text-3xl font-bold">{film.title}</h1>
+          <p class="text-gray-800 mt-4">{film.description}</p>
         </div>
       </div>
-
-      <h2>فوتوغرافيا الفيلم</h2>
-      <div class="grid">
+  
+      {/* Film Photography Section */}
+      <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right">فوتوغرافيا الفيلم</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
         {frames.map((frame) => (
-          <img src={frame.url} alt="Frame" class="film-frame" />
+          <a 
+            key={frame.url} 
+            href={frame.url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="block transform transition duration-300 hover:scale-105"
+          >
+            <img 
+              src={frame.url} 
+              alt="Frame" 
+              class="w-full h-auto object-cover rounded-md shadow-md"
+            />
+          </a>
         ))}
       </div>
-
+  
+      {/* BTS Section (Only if images exist) */}
       {btsImages.length > 0 && (
         <>
-          <h2>كواليس</h2>
-          <div class="grid">
+          <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right">كواليس</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
             {btsImages.map((image) => (
-              <img src={image.url} alt="BTS" class="bts-image" />
+              <a 
+                key={image.url} 
+                href={image.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="block transform transition duration-300 hover:scale-105"
+              >
+                <img 
+                  src={image.url} 
+                  alt="BTS" 
+                  class="w-full h-auto object-cover rounded-md shadow-md"
+                />
+              </a>
             ))}
           </div>
         </>
       )}
     </div>
-  );
+  );  
+  
 }

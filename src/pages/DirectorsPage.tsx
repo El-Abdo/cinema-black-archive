@@ -42,7 +42,7 @@ export default function DirectorPage() {
         <div class="w-full max-w-screen-xl mx-auto px-4">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {displayedDirectors.map((director) => (
-                <a href={`/director/${director.id}`}>
+                <a href={`/directors/${director.id}`}>
                     <DirectorCard key={director.id} director={director} />
                 </a>
                 ))}

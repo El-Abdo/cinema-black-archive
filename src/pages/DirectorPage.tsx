@@ -16,27 +16,28 @@ export default function DirectorPage() {
   if (!director) return <NotFound/>;
 
   return (
-    <>
-    <div class="p-6 flex flex-col lg:flex-row gap-6 items-start justify-end">
-            <img 
-                src={director.portrait_url || "/Portrait_Placeholder.png"}
-                alt={director.name} 
-                class="w-40 h-40 object-cover rounded-full border border-gray-300 shadow-md"
-            />
-
-            <div class="flex-1 text-right">
-                <h1 class="text-2xl font-bold">{director.name}</h1>
-                <p class="text-gray-800 mt-6">{director.bio || "مخرج مصري."}</p>
-            </div>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div class="w-full overflow-hidden">
+      <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-start">
+        <img
+          src={director.portrait_url || "/Portrait_Placeholder.png"}
+          alt={director.name}
+          class="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full border border-gray-300 shadow-md"
+        />
+  
+        <div class="w-full sm:flex-1 text-center sm:text-right">
+          <h1 class="text-lg sm:text-2xl md:text-3xl font-bold">{director.name}</h1>
+          <p class="text-gray-800 mt-3 text-sm sm:text-base">{director.bio || "مخرج مصري."}</p>
+        </div>
+      </div>
+  
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
         {films.map((film) => (
-            <FilmCard key={film.id} film={film} />
+          <FilmCard key={film.id} film={film} />
         ))}
+      </div>
     </div>
-    </>
-    
-);
+  );
+  
+  
 }
 
