@@ -44,11 +44,11 @@ export default function FilmPage() {
       {/* Film Header */}
       <div class="flex flex-col lg:flex-row items-start gap-6">
         {/* Film Poster */}
-        <img 
+        {film.poster_url? <img 
           src={film.poster_url} 
           alt={film.title} 
           class="w-full sm:w-60 md:w-80 object-cover rounded-lg shadow-lg"
-        />
+        /> : <div class="w-60 h-80 bg-gray-300 rounded-lg shadow-lg"></div>}
   
         {/* Film Info */}
         <div class="flex-1 text-right">

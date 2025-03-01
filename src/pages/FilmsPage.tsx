@@ -60,8 +60,8 @@ export default function FilmsPage() {
                         onChange={handleSortChange}
                         class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition"
                     >
-                        <option value="newest">الأحدث أولاً</option>
-                        <option value="oldest">الأقدم أولاً</option>
+                        <option value="newest">الأحدث</option>
+                        <option value="oldest">الأقدم</option>
                     </select>
                 </div>
             </div>
