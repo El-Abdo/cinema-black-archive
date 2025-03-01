@@ -1,11 +1,9 @@
-
 interface HeroProps {
     image?: string;
     title?: string;
 }
 
 const Hero = ({ image, title }: HeroProps) => {
-
     return (
         <section
             class="relative w-full h-[400px] bg-cover bg-center flex flex-col justify-center items-center"
@@ -14,13 +12,19 @@ const Hero = ({ image, title }: HeroProps) => {
             <div class="absolute inset-0 bg-black opacity-50"></div> {/* Overlay */}
             
             <div class="relative z-10 text-center text-white px-4">
-                <h1 class="text-sm sm:text-xl md:text-3xl font-bold mb-4">{title || 'Cinema Black Archive'}</h1>
+                <h1 class="text-sm sm:text-xl md:text-3xl font-bold mb-6">{title || 'Cinema Black Archive'}</h1>
                 
-                <div class="mb-6">
-                    <a href="/music" class="text-golden-500 hover:underline mx-4 text-xl">Music</a>
-                    <a href="/directors" class="text-golden-500 hover:underline mx-4 text-xl">Directors</a>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="/directors" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300">
+                        المخرجين
+                    </a>
+                    <a href="/films" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md transition duration-300">
+                        الأفلام
+                    </a>
+                    <a href="/music" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300">
+                        موسيقى تصويرية
+                    </a>
                 </div>
-
             </div>
         </section>
     );
