@@ -123,7 +123,7 @@ export default function DirectorPage() {
                                     class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
                                         currentPage === pageNumber 
                                             ? "bg-black text-white" 
-                                            : "bg-white text-black border-gray-300 hover:border-black hover:text-black"
+                                            : "bg-white text-black border-gray-300 hover:border-black hover:text-black cursor-pointer"
                                     }`} 
                                     onClick={() => handlePageChange(Number(pageNumber))}
                                 >

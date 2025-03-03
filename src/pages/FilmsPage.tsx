@@ -86,75 +86,88 @@ export default function FilmsPage() {
                 ))}
             </div>
 
-            {/* Pagination */}
+            {/* Pagination - Exact match to DirectorPage */}
             <div class="flex justify-center items-center text-lg mt-4 space-x-2">
-            <button 
-                class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
-                    currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
-                }`} 
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-            >
-                {"<"}
-            </button>
+                <button 
+                    class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
+                        currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
+                    }`} 
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    {"<"}
+                </button>
 
-            {/* First pages */}
-            {currentPage > 3 && (
-                <>
-                    <button 
-                        class="w-10 h-10 flex items-center justify-center rounded-full border bg-white text-black"
-                        onClick={() => handlePageChange(1)}
-                    >
-                        1
-                    </button>
-                    <span class="text-white">...</span>
-                </>
-            )}
+                {(() => {
+                    const pageNumbers = [];
+                    
+                    if (totalPages <= 7) {
+                        // Show all pages if there are 7 or fewer
+                        for (let i = 1; i <= totalPages; i++) {
+                            pageNumbers.push(i);
+                        }
+                    } else {
+                        // Always include first page
+                        pageNumbers.push(1);
+                        
+                        // Calculate window around current page
+                        const leftBound = Math.max(2, currentPage - 2);
+                        const rightBound = Math.min(totalPages - 1, currentPage + 2);
+                        
+                        // Show ellipsis after page 1 if needed
+                        if (leftBound > 2) {
+                            pageNumbers.push("ellipsis1");
+                        }
+                        
+                        // Add pages in the window
+                        for (let i = leftBound; i <= rightBound; i++) {
+                            pageNumbers.push(i);
+                        }
+                        
+                        // Show ellipsis before the last page if needed
+                        if (rightBound < totalPages - 1) {
+                            pageNumbers.push("ellipsis2");
+                        }
+                        
+                        // Always include the last page
+                        pageNumbers.push(totalPages);
+                    }
+                    
+                    return pageNumbers.map((pageNumber, index) => {
+                        if (pageNumber === "ellipsis1" || pageNumber === "ellipsis2") {
+                            return (
+                                <span key={`ellipsis-${index}`} class="w-10 h-10 flex items-center justify-center">
+                                    ...
+                                </span>
+                            );
+                        }
+                        
+                        return (
+                            <button 
+                                key={`page-${pageNumber}`}
+                                class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
+                                    currentPage === pageNumber 
+                                        ? "bg-black text-white" 
+                                        : "bg-white text-black border-gray-300 hover:border-black hover:text-black cursor-pointer"
+                                }`} 
+                                onClick={() => handlePageChange(Number(pageNumber))}
+                            >
+                                {pageNumber}
+                            </button>
+                        );
+                    });
+                })()}
 
-            {/* Pages around the current page */}
-            {[...Array(5)].map((_, index) => {
-                const page = Math.max(1, Math.min(totalPages, currentPage - 2 + index));
-                if (page <= totalPages) {
-                    return (
-                        <button 
-                            key={page}
-                            class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
-                                currentPage === page 
-                                    ? "bg-black text-white" 
-                                    : "bg-white text-black border-gray-300 hover:border-black hover:text-black"
-                            }`} 
-                            onClick={() => handlePageChange(page)}
-                        >
-                            {page}
-                        </button>
-                    );
-                }
-            })}
-
-            {/* Last pages */}
-            {currentPage < totalPages - 2 && (
-                <>
-                    <span class="text-white">...</span>
-                    <button 
-                        class="w-10 h-10 flex items-center justify-center rounded-full border bg-white text-black"
-                        onClick={() => handlePageChange(totalPages)}
-                    >
-                        {totalPages}
-                    </button>
-                </>
-            )}
-
-            <button 
-                class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
-                    currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
-                }`} 
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-            >
-                {">"}
-            </button>
-        </div>
-
+                <button 
+                    class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
+                        currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
+                    }`} 
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    {">"}
+                </button>
+            </div>
         </div>
     );
 }
