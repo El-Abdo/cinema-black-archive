@@ -1,27 +1,43 @@
+import { ComponentChildren } from "preact";
+
 interface HeroProps {
     image?: string;
     title?: string;
+    children?: ComponentChildren;
 }
 
-const Hero = ({ image, title }: HeroProps) => {
+const Hero = ({ image, title, children }: HeroProps) => {
     return (
         <section
-            class="relative w-full h-[400px] bg-cover bg-center flex flex-col justify-center items-center"
-            style={{ backgroundImage: `url(${image || '/default-bg.jpg'})` }}
+            class="relative w-full min-h-[650px] md:min-h-[750px] lg:h-[1350px] bg-cover bg-center flex flex-col items-center justify-center text-center px-2"
+            style={{ backgroundImage: `url(${image})` }}
         >
-            <div class="absolute inset-0 bg-black opacity-50"></div> {/* Overlay */}
+            {/* Overlay */}
+            <div class="absolute inset-0 bg-black opacity-50"></div> 
             
-            <div class="relative z-10 text-center text-white px-4">
-                <h1 class="text-sm sm:text-xl md:text-3xl font-bold mb-6">{title || 'Cinema Black Archive'}</h1>
-                
-                <div class="flex flex-wrap justify-center gap-4">
-                    <a href="/directors" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300">
+            {/* Content */}
+            <div class="relative z-10 text-white px-2 py-3 max-w-[95%] w-full">
+                <h1
+                    class={`font-bold mb-6 max-w-full px-4 ${
+                        title
+                        ? "text-xl sm:text-4xl md:text-4xl lg:text-7xl"
+                        : "text-3xl sm:text-6xl md:text-6xl lg:text-8xl"
+                    }`}
+                    >
+                    {title || "Cinema Black Archive"}
+                </h1>
+
+                {/* Children (e.g., Search Bar) */}
+                {children && <div class="flex mt-3 justify-center">{children}</div>}
+
+                {/* Buttons */}
+                <div class="flex flex-wrap justify-center gap-2 mt-5 text-[15px] sm:text-xs md:text-sm">
+                    <a href="/directors" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
                         المخرجين
                     </a>
-                    <a href="/films" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-4 px-6 rounded-lg shadow-md transition duration-300">
+                    <a href="/films" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
                         الأفلام
-                    </a>
-                    <a href="/music" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300">
+                    </a>                    <a href="/music" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
                         موسيقى تصويرية
                     </a>
                 </div>
