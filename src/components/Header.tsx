@@ -61,6 +61,21 @@ const Header = () => {
             return result;
         }
         
+        // Add specific handling for music/filmID paths
+        if (pathParts[0] === "music" && pathParts.length > 1) {
+            const filmId = parseInt(pathParts[1], 10);
+            const film = films[filmId];
+            
+            result.push({ name: "موسيقى تصويرية", url: "/music" });
+            
+            // Add film name if found
+            if (film) {
+                result.push({ name: film.title, url: `/music/${filmId}` });
+            }
+            
+            return result;
+        }
+        
         // Standard breadcrumb generation for other pages
         let builtPath = "";
         
@@ -72,7 +87,7 @@ const Header = () => {
                 result.push({ name: "المخرجين", url: "/directors" });
             } else if (part === "films") {
                 result.push({ name: "الأفلام", url: "/films" });
-            }else if (part === "music") {
+            } else if (part === "music") {
                 result.push({ name: "موسيقى تصويرية", url: "/music" });
             } else {
                 const id = parseInt(part, 10);
@@ -82,6 +97,9 @@ const Header = () => {
                     if (prevPart === "directors" && directors[id]) {
                         result.push({ name: directors[id].name, url: `/directors/${id}` });
                     } else if (prevPart === "films" && films[id]) {
+                        result.push({ name: films[id].title, url: `/films/${id}` });
+                    } else if (prevPart === "music" && films[id]) {
+                        // For music/filmID, add the film title as a breadcrumb
                         result.push({ name: films[id].title, url: `/films/${id}` });
                     }
                 }
