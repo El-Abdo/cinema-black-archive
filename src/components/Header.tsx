@@ -72,6 +72,8 @@ const Header = () => {
                 result.push({ name: "المخرجين", url: "/directors" });
             } else if (part === "films") {
                 result.push({ name: "الأفلام", url: "/films" });
+            }else if (part === "music") {
+                result.push({ name: "موسيقى تصويرية", url: "/music" });
             } else {
                 const id = parseInt(part, 10);
                 if (!isNaN(id)) {
@@ -91,7 +93,7 @@ const Header = () => {
     
     return (
         <header class="bg-black sticky top-0 w-full z-50">
-            <div class="container mx-auto flex items-center justify-between p-4 sm:p-6">            
+            <div class="container mx-auto flex items-center justify-between">            
                 <nav class="text-xs sm:text-sm md:text-base flex flex-wrap items-center gap-2 text-amber-400">
                     {breadcrumbs.map((crumb, index) => (
                         <span key={index} class="flex items-center">
