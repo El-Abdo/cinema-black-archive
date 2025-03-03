@@ -3,6 +3,8 @@ import { useLocation } from "preact-iso";
 import { DataContext } from "../context/DataContext";
 import FilmCard from "../components/FilmCard";
 import NotFound from "./NotFound";
+import Hero from "../components/Hero";
+import Search from "../components/Search";
 
 const ITEMS_PER_PAGE = 16;
 
@@ -12,8 +14,7 @@ export default function FilmsPage() {
     const initialPage = parseInt(query.get("page") || "1", 10);
 
     const data = useContext(DataContext);
-    if (!data) return <p>Loading...</p>;
-
+    if (!data) return null;
     let films = Object.values(data.films);
     if (!films.length) return <NotFound />;
 
@@ -49,11 +50,21 @@ export default function FilmsPage() {
     );
 
     return (
-        <div class="w-full max-w-screen-xl mx-auto px-4">
-            <div class="flex justify-between items-center mb-6">                
+        <div class="w-full max-w-screen-xl mx-auto px-4 bg-black">
+            <Hero title="الأفلام" image="/cover.PNG">                
+                <Search 
+                    data={Object.values(data.films)} 
+                    placeholder="ابحث عن فيلم..." 
+                    searchFields={["title", "description"]} 
+                    getLink={(film) => `/films/${film.id}`} 
+                    getDisplayText={(film) => film.title} 
+                />
+            </Hero>
+
+            <div class="flex justify-between items-center my-6">                
                 {/* Sort Order Dropdown */}
                 <div class="flex items-center">
-                    <label htmlFor="sortOrder" class="text-lg ml-4 text-right">ترتيب حسب:</label>
+                    <label htmlFor="sortOrder" class="text-lg ml-4 text-right text-gray-300">ترتيب حسب:</label>
                     <select
                         id="sortOrder"
                         value={sortOrder}
@@ -67,50 +78,83 @@ export default function FilmsPage() {
             </div>
 
             {/* Films Grid (RTL) */}
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 my-6">
                 {displayedFilms.map((film) => (
                     <a href={`/films/${film.id}`} key={film.id}>
-                        <FilmCard film={film} />
+                        <FilmCard key={film.id + 1} film={film} />
                     </a>
                 ))}
             </div>
 
             {/* Pagination */}
             <div class="flex justify-center items-center text-lg mt-4 space-x-2">
-                <button
-                    class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
-                        currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
-                    }`}
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    {"<"}
-                </button>
+            <button 
+                class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
+                    currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
+                }`} 
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+            >
+                {"<"}
+            </button>
 
-                {[...Array(totalPages)].map((_, index) => (
-                    <button
-                        key={index}
-                        class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
-                            currentPage === index + 1
-                                ? "bg-black text-white"
-                                : "bg-white text-black border-gray-300 hover:border-black hover:text-black"
-                        }`}
-                        onClick={() => handlePageChange(index + 1)}
+            {/* First pages */}
+            {currentPage > 3 && (
+                <>
+                    <button 
+                        class="w-10 h-10 flex items-center justify-center rounded-full border bg-white text-black"
+                        onClick={() => handlePageChange(1)}
                     >
-                        {index + 1}
+                        1
                     </button>
-                ))}
+                    <span class="text-white">...</span>
+                </>
+            )}
 
-                <button
-                    class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
-                        currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
-                    }`}
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    {">"}
-                </button>
-            </div>
+            {/* Pages around the current page */}
+            {[...Array(5)].map((_, index) => {
+                const page = Math.max(1, Math.min(totalPages, currentPage - 2 + index));
+                if (page <= totalPages) {
+                    return (
+                        <button 
+                            key={page}
+                            class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
+                                currentPage === page 
+                                    ? "bg-black text-white" 
+                                    : "bg-white text-black border-gray-300 hover:border-black hover:text-black"
+                            }`} 
+                            onClick={() => handlePageChange(page)}
+                        >
+                            {page}
+                        </button>
+                    );
+                }
+            })}
+
+            {/* Last pages */}
+            {currentPage < totalPages - 2 && (
+                <>
+                    <span class="text-white">...</span>
+                    <button 
+                        class="w-10 h-10 flex items-center justify-center rounded-full border bg-white text-black"
+                        onClick={() => handlePageChange(totalPages)}
+                    >
+                        {totalPages}
+                    </button>
+                </>
+            )}
+
+            <button 
+                class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
+                    currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
+                }`} 
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+            >
+                {">"}
+            </button>
+        </div>
+
         </div>
     );
 }

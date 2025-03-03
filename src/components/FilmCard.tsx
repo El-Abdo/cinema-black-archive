@@ -1,6 +1,3 @@
-import { useLocation } from 'preact-iso';
-
-
 interface FilmProps {
     film: {
       id: number;
@@ -11,19 +8,18 @@ interface FilmProps {
   }
   
   export default function FilmCard({ film }: FilmProps) {
-    const location = useLocation();
-    const path = location.path;
-    const parts = path.split('/');
-    const linkPath = parts[1] === 'directors' ? `/films/${film.id}` : `${path}/${film.id}`;
-
     return (
-      <div class="border p-4 rounded-lg shadow-lg bg-white">
-        <a href={`${linkPath}`} class="block">
-          <img src={film.poster_url || "/placeholder.jpg"} alt={film.title} class="w-full h-60 object-cover rounded-md" />
-          <h3 class="text-lg font-bold mt-3 text-center">{film.title}</h3>
-        </a> 
-        <p class="text-sm text-gray-600 text-center">سنة الصدور: {film.release_year}</p>
+      <div class="w-full max-w-xs border border-gray-700 p-4 rounded-lg shadow-lg bg-gray-900 flex flex-col">
+          <img 
+            src={film.poster_url || "/placeholder.jpg"} 
+            alt={film.title} 
+            class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-md"
+          />
+          <h3 class="text-lg font-bold mt-3 text-center text-gray-300 line-clamp-2 h-12">
+          {film.title.length > 20 ? `${film.title.substring(0, 20)}...` : film.title}
+        </h3>
+        <p class="text-sm text-gray-400 text-center">سنة الصدور: {film.release_year}</p>
       </div>
-    );
+    ); 
   }
   

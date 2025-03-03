@@ -17,7 +17,7 @@ export default function FilmPage() {
   const [btsImages, setBtsImages] = useState<Image[]>([]);
 
   // Get film details from context
-  if (!data) return <p>Loading...</p>;
+  if (!data) return null;
   const film = data.films[filmId];
   if (!film) return <NotFound />;
 
@@ -39,7 +39,7 @@ export default function FilmPage() {
   }, [filmId]);
 
   return (
-    <div class="p-4 sm:p-6 max-w-screen-xl mx-auto">
+    <div class="p-4 sm:p-6 max-w-screen-xl mx-auto bg-black">
       
       {/* Film Header */}
       <div class="flex flex-col lg:flex-row items-start gap-6">
@@ -51,14 +51,14 @@ export default function FilmPage() {
         /> : <div class="w-60 h-80 bg-gray-300 rounded-lg shadow-lg"></div>}
   
         {/* Film Info */}
-        <div class="flex-1 text-right">
+        <div class="flex-1 text-right text-gray-300">
           <h1 class="text-xl sm:text-2xl md:text-3xl font-bold">{film.title}</h1>
-          <p class="text-gray-800 mt-4">{film.description}</p>
+          <p class="text-gray-600 mt-4">{film.description}</p>
         </div>
       </div>
   
       {/* Film Photography Section */}
-      <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right">فوتوغرافيا الفيلم</h2>
+      <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right text-gray-400">فوتوغرافيا الفيلم</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
         {frames.map((frame) => (
           <a 
@@ -80,7 +80,7 @@ export default function FilmPage() {
       {/* BTS Section (Only if images exist) */}
       {btsImages.length > 0 && (
         <>
-          <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right">كواليس</h2>
+          <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right text-gray-400">كواليس</h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
             {btsImages.map((image) => (
               <a 
