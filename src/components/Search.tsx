@@ -1,62 +1,69 @@
-// components/Search.tsx
-import { useState, useContext } from "preact/hooks";
-import { DataContext } from "../context/DataContext";
+import { useState, useRef, useEffect } from "preact/hooks";
 
-export default function Search() {
-  const context = useContext(DataContext);
+interface SearchProps<T> {
+    data: T[];
+    placeholder?: string;
+    searchFields: (keyof T)[];
+    getLink: (item: T) => string;
+    getDisplayText: (item: T) => string;
+}
 
-  // If context is null, we just return null or render nothing.
-  if (!context) return null;
+export default function Search<T>({
+    data,
+    placeholder = "Search...",
+    searchFields,
+    getLink,
+    getDisplayText,
+}: SearchProps<T>) {
+    const [query, setQuery] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const searchRef = useRef<HTMLDivElement>(null);
 
-  const { directors, films } = context;
-  const [query, setQuery] = useState("");
+    const filteredResults = query
+        ? data.filter((item) =>
+              searchFields.some((field) =>
+                  String(item[field]).toLowerCase().includes(query.toLowerCase())
+              )
+          )
+        : [];
 
-  const directorResults = query
-    ? Object.values(directors).filter((d) =>
-        d.name.toLowerCase().includes(query.toLowerCase())
-      )
-    : [];
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
-  const filmResults = query
-    ? Object.values(films).filter((f) =>
-        f.title.toLowerCase().includes(query.toLowerCase())
-      )
-    : [];
-
-  return (
-    <div class="search-container">
-      <input
-        type="text"
-        placeholder="Search directors or films..."
-        value={query}
-        onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
-      />
-      <div class="search-results">
-        {directorResults.length > 0 && (
-          <div class="search-section">
-            <h3>Directors</h3>
-            <ul>
-              {directorResults.map((d) => (
-                <li key={d.id}>
-                  <a href={`/director/${d.id}`}>{d.name}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {filmResults.length > 0 && (
-          <div class="search-section">
-            <h3>Films</h3>
-            <ul>
-              {filmResults.map((f) => (
-                <li key={f.id}>
-                  <a href={`/film/${f.id}`}>{f.title}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+    return (
+        <div ref={searchRef} class="relative w-full max-w-md">
+            <input
+                type="text"
+                placeholder={placeholder}
+                value={query}
+                onInput={(e) => {
+                    setQuery((e.target as HTMLInputElement).value);
+                    setIsOpen(true);
+                }}
+                class="w-full p-2 rounded-md border border-gray-600 bg-gray-900 text-white text-sm focus:ring-2 focus:ring-blue-500"
+            />
+            {isOpen && filteredResults.length > 0 && (
+                <div class="absolute bg-gray-800 text-white shadow-lg mt-1 w-full rounded-md max-h-60 overflow-auto border border-gray-600">
+                    {filteredResults.map((item) => (
+                        <a
+                            key={getLink(item)}
+                            href={getLink(item)}
+                            class="block px-4 py-2 hover:bg-gray-700 transition"
+                            onClick={() => setIsOpen(false)} // Close dropdown on selection
+                        >
+                            {getDisplayText(item)}
+                        </a>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
 }

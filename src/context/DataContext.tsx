@@ -93,7 +93,11 @@ export function DataProvider({ children }: { children: preact.ComponentChildren 
     fetchData();
   }, []);
 
-  if (!data) return <p>Loading...</p>;
+  if (!data) return (
+    <div class = "bg-black">
+          <p class = "text-right text-gray-500">جار التحميل...</p>
+    </div>
+  );
 
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
 }
