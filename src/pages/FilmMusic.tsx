@@ -18,9 +18,12 @@ export default function FilmMusicPage() {
     <div class="min-h-screen bg-gray-900 text-white p-6 flex flex-col items-center">
       {/* Title & Poster */}
       <div class="w-full max-w-4xl text-center mb-8">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-          {film.title} - الموسيقى التصويرية
-        </h1>
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+        <a href={`/films/${film.id}`} key={film.id} className="text-amber-400 hover:underline">
+          {film.title}
+        </a>
+        {" - الموسيقى التصويرية"}
+      </h1>
         <img
           src={film.poster_url || "/placeholder.jpg"}
           alt={film.title}
