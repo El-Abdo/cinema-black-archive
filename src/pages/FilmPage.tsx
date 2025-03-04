@@ -53,7 +53,7 @@ export default function FilmPage() {
         {/* Film Info */}
         <div class="flex-1 text-right text-gray-300">
           <h1 class="text-xl sm:text-2xl md:text-3xl font-bold">{film.title}</h1>
-          <p class="text-gray-600 mt-4">{film.description}</p>
+          <p class="text-gray-600 mt-4 lg:text-2xl">{film.description}</p>
         </div>
       </div>
   

@@ -9,7 +9,7 @@ interface HeroProps {
 const Hero = ({ image, title, children }: HeroProps) => {
     return (
         <section
-            class="relative w-full min-h-[650px] md:min-h-[750px] lg:h-[1350px] bg-cover bg-center flex flex-col items-center justify-center text-center px-2"
+            class="relative w-full min-h-[650px] md:min-h-[750px] lg:h-[1000px] bg-cover bg-center flex flex-col items-center justify-center text-center px-2"
             style={{ backgroundImage: `url(${image})` }}
         >
             {/* Overlay */}
@@ -31,7 +31,7 @@ const Hero = ({ image, title, children }: HeroProps) => {
                 {children && <div class="flex mt-3 justify-center">{children}</div>}
 
                 {/* Buttons */}
-                <div class="flex flex-wrap justify-center gap-2 mt-5 text-[15px] sm:text-xs md:text-sm">
+                <div class="flex flex-wrap justify-center gap-2 mt-5 text-[15px] sm:text-xs md:text-lg">
                     <a href="/directors" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
                         المخرجين
                     </a>
