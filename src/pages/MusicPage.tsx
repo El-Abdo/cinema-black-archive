@@ -8,21 +8,21 @@ export default function MusicPage() {
   const data = useContext(DataContext);
 
   if (!data) {
-    return <p>Loading...</p>;
+    return null;
   }
   const filmIdsWithMusic = Object.keys(data.music);
 
   return (
-    <div class="p-4">
+    <div class="w-full max-w-screen-xl mx-auto p-4">
       <Hero title="الموسيقى التصويرية" image="/cover.PNG" />                
       {filmIdsWithMusic.length === 0 ? (
         <NotFound />
       ) : (
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-6 place-items-center">
           {filmIdsWithMusic.map((filmId) => {
             const film = data.films[Number(filmId)];
             return (
-              <a href={`/music/${film.id}`} key={film.id}>
+              <a href={`/music/${film.id}`} key={film.id} >
                           <FilmCard key={film.id} film={film} />
               </a>
             );

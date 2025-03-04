@@ -78,7 +78,7 @@ export default function FilmsPage() {
             </div>
 
             {/* Films Grid (RTL) */}
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 my-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 my-6 place-items-center">
                 {displayedFilms.map((film) => (
                     <a href={`/films/${film.id}`} key={film.id}>
                         <FilmCard key={film.id + 1} film={film} />

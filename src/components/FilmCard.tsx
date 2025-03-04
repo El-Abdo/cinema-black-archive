@@ -9,7 +9,7 @@ interface FilmProps {
   
   export default function FilmCard({ film }: FilmProps) {
     return (
-      <div class="w-full max-w-xs border border-gray-700 p-4 rounded-lg shadow-lg bg-gray-900 flex flex-col">
+      <div class="w-[10rem] sm:w-[15rem] max-w-xs border border-gray-700 p-4 rounded-lg shadow-lg bg-gray-900 flex flex-col">
           <img 
             src={film.poster_url || "/placeholder.jpg"} 
             alt={film.title} 

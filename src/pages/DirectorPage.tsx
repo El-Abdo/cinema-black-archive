@@ -18,8 +18,8 @@ export default function DirectorPage() {
   if (!director) return <NotFound/>;
 
   return (
-    <div class="w-full overflow-hidden bg-black">
-      <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:gap-6 items-center sm:items-start">
+    <div class="w-full overflow-hidden">
+      <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
         <img
           src={director.portrait_url || "/Portrait_Placeholder.png"}
           alt={director.name}
@@ -32,7 +32,7 @@ export default function DirectorPage() {
         </div>
       </div>
   
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 w-full place-items-center">
         {films.map((film) => (
           <a href={`/films/${film.id}`} key={film.id}>
             <FilmCard key={film.id} film={film} />

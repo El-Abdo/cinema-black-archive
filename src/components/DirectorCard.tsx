@@ -15,19 +15,19 @@ interface DirectorProps {
   
   export default function DirectorCard({ director }: DirectorProps) {
     return (
-      <div class="w-38 sm:w-56 md:w-60 lg:w-64 h-80 sm:h-96 md:h-[26rem] lg:h-[28rem] rounded-lg shadow-md hover:ring-2 hover:ring-blue-400 hover:ring-opacity-50 bg-gray-900 flex flex-col mx-auto">
+      <div class="w-[10rem] sm:w-[15rem] max-w-xs border border-gray-700 p-4 rounded-lg shadow-lg bg-gray-900 flex flex-col h-80 sm:h-96 md:h-[26rem]">
         <img 
           src={director.portrait_url || "/Portrait_Placeholder.png"} 
           alt={director.name} 
-          class="w-full h-80 object-cover rounded-t-lg"
+          class="w-full h-48 sm:h-56 md:h-64 object-cover rounded-md"
         />
-          <div class="flex-grow flex flex-col justify-center items-center p-3">
+        <div class="flex-grow flex flex-col justify-center items-center p-3">
           <h3 class="text-lg font-bold text-white text-center truncate max-w-full">
             {director.name}
           </h3>
   
-          {/* Ensure Bio Doesn't Overflow */}
-          <p class="text-sm text-gray-400 text-center break-words overflow-hidden text-ellipsis max-h-16">
+          {/* Ensure Bio Doesn't Overflow & Has a Fixed Height */}
+          <p class="text-sm text-gray-400 text-center break-words overflow-hidden text-ellipsis min-h-[48px]">
             {truncateText(director.bio, 15)}
           </p>
         </div>

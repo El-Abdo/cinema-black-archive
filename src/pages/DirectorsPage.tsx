@@ -41,7 +41,7 @@ export default function DirectorPage() {
 
     return (
 
-            <div class="w-full max-w-screen-xl mx-auto px-4">
+            <div class="w-full max-w-screen-xl mx-auto p-4">
                 {/* Hero Section with Embedded Search */}
                 <Hero title="المخرجين" image="/cover.PNG">
                     <Search 
@@ -53,7 +53,7 @@ export default function DirectorPage() {
                     />
                     
                 </Hero>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 my-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6 place-items-center">
                     {displayedDirectors.map((director) => (
                         <a href={`/directors/${director.id}`} key={director.id}>
                             <DirectorCard key={director.id + 1} director={director} />
