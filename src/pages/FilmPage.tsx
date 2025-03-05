@@ -39,16 +39,21 @@ export default function FilmPage() {
   }, [filmId]);
 
   return (
-    <div class="p-4 sm:p-6 max-w-screen-xl mx-auto bg-black">
+    <div class="p-4 sm:p-6 max-w-screen-xl mx-auto">
       
       {/* Film Header */}
       <div class="flex flex-col lg:flex-row items-start gap-6">
         {/* Film Poster */}
-        {film.poster_url? <img 
-          src={film.poster_url} 
-          alt={film.title} 
-          class="w-full sm:w-60 md:w-80 object-cover rounded-lg shadow-lg"
-        /> : <div class="w-60 h-80 bg-gray-300 rounded-lg shadow-lg"></div>}
+        <div class="w-full sm:w-60 md:w-80 aspect-[2/3] bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+          {film.poster_url ? (
+            <img
+              src={film.poster_url}
+              alt={film.title}
+              class="w-full h-full object-cover"
+              width="320" height="480"
+            />
+          ) : null}
+        </div>
   
         {/* Film Info */}
         <div class="flex-1 text-right text-gray-300">
@@ -61,18 +66,21 @@ export default function FilmPage() {
       <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right text-gray-400">فوتوغرافيا الفيلم</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
         {frames.map((frame) => (
-          <a 
-            key={frame.url} 
-            href={frame.url} 
-            target="_blank" 
+          <a
+            key={frame.url}
+            href={frame.url}
+            target="_blank"
             rel="noopener noreferrer"
             class="block transform transition duration-300 hover:scale-105"
           >
-            <img 
-              src={frame.url} 
-              alt="Frame" 
-              class="w-full h-auto object-cover rounded-md shadow-md"
-            />
+            <div class="w-full aspect-video bg-gray-800 rounded-md shadow-md overflow-hidden">
+              <img
+                src={frame.url}
+                alt="Frame"
+                class="w-full h-full object-cover"
+                width="400" height="225"
+              />
+            </div>
           </a>
         ))}
       </div>
@@ -83,24 +91,28 @@ export default function FilmPage() {
           <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right text-gray-400">كواليس</h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
             {btsImages.map((image) => (
-              <a 
-                key={image.url} 
-                href={image.url} 
-                target="_blank" 
+              <a
+                key={image.url}
+                href={image.url}
+                target="_blank"
                 rel="noopener noreferrer"
                 class="block transform transition duration-300 hover:scale-105"
               >
-                <img 
-                  src={image.url} 
-                  alt="BTS" 
-                  class="w-full h-auto object-cover rounded-md shadow-md"
-                />
+                <div class="w-full aspect-video bg-gray-800 rounded-md shadow-md overflow-hidden">
+                  <img
+                    src={image.url}
+                    alt="BTS"
+                    class="w-full h-full object-cover"
+                    width="400" height="225"
+                  />
+                </div>
               </a>
             ))}
           </div>
         </>
       )}
     </div>
-  );  
+  );
+  
   
 }
