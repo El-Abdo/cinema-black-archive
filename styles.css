@@ -1,14 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-    font-family: 'Anton';
-    src: url('fonts/Anton-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-
 body, html {
     height: 100%;
     scroll-behavior: smooth;
