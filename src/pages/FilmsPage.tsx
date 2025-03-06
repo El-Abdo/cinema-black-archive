@@ -1,8 +1,8 @@
 import { useContext, useState, useEffect } from "preact/hooks";
 import { useLocation } from "preact-iso";
 import { DataContext } from "../context/DataContext";
-import FilmCard from "../components/FilmCard";
-import NotFound from "./NotFound";
+import Card from "../components/Card";
+import PlaceholderCard from "../components/PlaceHolderCard";
 import Hero from "../components/Hero";
 import Search from "../components/Search";
 
@@ -14,23 +14,25 @@ export default function FilmsPage() {
     const initialPage = parseInt(query.get("page") || "1", 10);
 
     const data = useContext(DataContext);
-    if (!data) return null;
-    let films = Object.values(data.films);
-    if (!films.length) return <NotFound />;
+    const films = Object.values(data?.films || {});
+
+    // Check if films are actually loaded (not just empty objects)
+    const isLoading = !films.some(film => film.id);
 
     const [currentPage, setCurrentPage] = useState<number>(initialPage);
     const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
     useEffect(() => {
-        // Update the URL without reloading the page
         const newUrl = `?page=${currentPage}`;
         window.history.pushState({}, "", newUrl);
     }, [currentPage]);
 
-    // Sort films based on selected order: "newest" first (films sorted in descending order by release year)
-    films.sort((a, b) => (sortOrder === "newest" ? b.release_year - a.release_year : a.release_year - b.release_year));
+    // Only sort if films are loaded
+    if (!isLoading) {
+        films.sort((a, b) => (sortOrder === "newest" ? b.release_year - a.release_year : a.release_year - b.release_year));
+    }
 
-    const totalPages: number = Math.ceil(films.length / ITEMS_PER_PAGE);
+    const totalPages: number = isLoading ? 1 : Math.ceil(films.length / ITEMS_PER_PAGE);
 
     const handlePageChange = (page: number) => {
         if (page >= 1 && page <= totalPages) {
@@ -44,10 +46,12 @@ export default function FilmsPage() {
         setSortOrder(value as "newest" | "oldest");
     };
 
-    const displayedFilms = films.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
-    );
+    const displayedFilms = isLoading 
+        ? Array(ITEMS_PER_PAGE).fill({}) 
+        : films.slice(
+            (currentPage - 1) * ITEMS_PER_PAGE,
+            currentPage * ITEMS_PER_PAGE
+        );
 
     return (
         <div class="w-full max-w-screen-xl mx-auto px-4 bg-black">
@@ -69,7 +73,10 @@ export default function FilmsPage() {
                         id="sortOrder"
                         value={sortOrder}
                         onChange={handleSortChange}
-                        class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition"
+                        disabled={isLoading}
+                        class={`px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition ${
+                            isLoading ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                     >
                         <option value="newest">الأحدث</option>
                         <option value="oldest">الأقدم</option>
@@ -79,91 +86,94 @@ export default function FilmsPage() {
 
             {/* Films Grid (RTL) */}
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 my-6 place-items-center">
-                {displayedFilms.map((film) => (
-                    <a href={`/films/${film.id}`} key={film.id}>
-                        <FilmCard key={film.id + 1} film={film} />
-                    </a>
-                ))}
+                {isLoading 
+                    ? Array(ITEMS_PER_PAGE).fill(0).map((_, index) => (
+                        <PlaceholderCard key={`placeholder-${index}`} />
+                    ))
+                    : displayedFilms.map((film) => (
+                        <a href={`/films/${film.id}`} key={film.id}>
+                            <Card
+                                title={film.title}
+                                subtitle={`سنة الصدور: ${film.release_year}`}
+                                imageUrl={film.poster_url}
+                                placeholderImage="/placeholder.jpg"
+                            />
+                        </a>
+                    ))
+                }
             </div>
 
-            {/* Pagination - Exact match to DirectorPage */}
+            {/* Pagination */}
             <div class="flex justify-center items-center text-lg mt-4 space-x-2">
-                <button 
-                    class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
-                        currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
-                    }`} 
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
+                <button
+                    disabled={true}
+                    class="w-10 h-10 flex items-center justify-center rounded-full border text-gray-400 cursor-not-allowed"
                 >
                     {"<"}
                 </button>
 
-                {(() => {
-                    const pageNumbers = [];
-                    
-                    if (totalPages <= 7) {
-                        // Show all pages if there are 7 or fewer
-                        for (let i = 1; i <= totalPages; i++) {
-                            pageNumbers.push(i);
-                        }
-                    } else {
-                        // Always include first page
-                        pageNumbers.push(1);
-                        
-                        // Calculate window around current page
-                        const leftBound = Math.max(2, currentPage - 2);
-                        const rightBound = Math.min(totalPages - 1, currentPage + 2);
-                        
-                        // Show ellipsis after page 1 if needed
-                        if (leftBound > 2) {
-                            pageNumbers.push("ellipsis1");
-                        }
-                        
-                        // Add pages in the window
-                        for (let i = leftBound; i <= rightBound; i++) {
-                            pageNumbers.push(i);
-                        }
-                        
-                        // Show ellipsis before the last page if needed
-                        if (rightBound < totalPages - 1) {
-                            pageNumbers.push("ellipsis2");
-                        }
-                        
-                        // Always include the last page
-                        pageNumbers.push(totalPages);
-                    }
-                    
-                    return pageNumbers.map((pageNumber, index) => {
-                        if (pageNumber === "ellipsis1" || pageNumber === "ellipsis2") {
-                            return (
-                                <span key={`ellipsis-${index}`} class="w-10 h-10 flex items-center justify-center">
-                                    ...
-                                </span>
-                            );
-                        }
-                        
-                        return (
-                            <button 
-                                key={`page-${pageNumber}`}
-                                class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
-                                    currentPage === pageNumber 
-                                        ? "bg-black text-white" 
-                                        : "bg-white text-black border-gray-300 hover:border-black hover:text-black cursor-pointer"
-                                }`} 
-                                onClick={() => handlePageChange(Number(pageNumber))}
-                            >
-                                {pageNumber}
-                            </button>
-                        );
-                    });
-                })()}
+                {isLoading 
+                    ? Array(5).fill(0).map((_, index) => (
+                        <span 
+                            key={`loading-page-${index}`} 
+                            class="w-10 h-10 bg-gray-800 animate-pulse rounded-full"
+                        ></span>
+                    ))
+                    : (() => {
+                        const pageNumbers = [];
 
-                <button 
-                    class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
-                        currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-blue-500 hover:text-blue-700"
-                    }`} 
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
+                        if (totalPages <= 7) {
+                            for (let i = 1; i <= totalPages; i++) {
+                                pageNumbers.push(i);
+                            }
+                        } else {
+                            pageNumbers.push(1);
+                            const leftBound = Math.max(2, currentPage - 2);
+                            const rightBound = Math.min(totalPages - 1, currentPage + 2);
+
+                            if (leftBound > 2) {
+                                pageNumbers.push("ellipsis1");
+                            }
+
+                            for (let i = leftBound; i <= rightBound; i++) {
+                                pageNumbers.push(i);
+                            }
+
+                            if (rightBound < totalPages - 1) {
+                                pageNumbers.push("ellipsis2");
+                            }
+
+                            pageNumbers.push(totalPages);
+                        }
+
+                        return pageNumbers.map((pageNumber, index) => {
+                            if (pageNumber === "ellipsis1" || pageNumber === "ellipsis2") {
+                                return (
+                                    <span key={`ellipsis-${index}`} class="w-10 h-10 flex items-center justify-center">
+                                        ...
+                                    </span>
+                                );
+                            }
+
+                            return (
+                                <button
+                                    key={`page-${pageNumber}`}
+                                    class={`w-10 h-10 flex items-center justify-center rounded-full border transition ${
+                                        currentPage === pageNumber
+                                            ? "bg-black text-white"
+                                            : "bg-white text-black border-gray-300 hover:border-black hover:text-black cursor-pointer"
+                                    }`}
+                                    onClick={() => handlePageChange(Number(pageNumber))}
+                                >
+                                    {pageNumber}
+                                </button>
+                            );
+                        });
+                    })()}
+
+                <button
+                    disabled={true}
+                    class="w-10 h-10 flex items-center justify-center rounded-full border text-gray-400 cursor-not-allowed"
                 >
                     {">"}
                 </button>

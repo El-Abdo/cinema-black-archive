@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "preact/hooks";
 import { supabase } from "../utils/supabase";
 import { useLocation } from "preact-iso";
 import { DataContext } from "../context/DataContext";
-import NotFound from "./NotFound";
 
 interface Image {
   url: string;
@@ -17,9 +16,7 @@ export default function FilmPage() {
   const [btsImages, setBtsImages] = useState<Image[]>([]);
 
   // Get film details from context
-  if (!data) return null;
   const film = data.films[filmId];
-  if (!film) return <NotFound />;
 
   useEffect(() => {
     async function fetchImages() {
@@ -38,81 +35,120 @@ export default function FilmPage() {
     fetchImages();
   }, [filmId]);
 
+  const isLoading = !film || frames.length === 0;
+
   return (
     <div class="p-4 sm:p-6 max-w-screen-xl mx-auto">
-      
       {/* Film Header */}
       <div class="flex flex-col lg:flex-row items-start gap-6">
         {/* Film Poster */}
         <div class="w-full sm:w-60 md:w-80 aspect-[2/3] bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-          {film.poster_url ? (
-            <img
-              src={film.poster_url}
-              alt={film.title}
-              class="w-full h-full object-cover"
-              width="320" height="480"
-            />
-          ) : null}
+          {isLoading ? (
+            <div class="w-full h-full bg-gray-300 animate-pulse"></div>
+          ) : (
+            film.poster_url && (
+              <img
+                src={film.poster_url}
+                alt={film.title}
+                class="w-full h-full object-cover"
+                width="320" height="480"
+              />
+            )
+          )}
         </div>
-  
+
         {/* Film Info */}
         <div class="flex-1 text-right text-gray-300">
-          <h1 class="text-xl sm:text-2xl md:text-3xl font-bold">{film.title}</h1>
-          <p class="text-gray-600 mt-4 lg:text-2xl">{film.description}</p>
+          {isLoading ? (
+            <>
+              <div class="h-8 w-3/4 sm:w-1/2 bg-gray-300 animate-pulse mb-4"></div>
+              <div class="h-6 w-5/6 sm:w-2/3 bg-gray-300 animate-pulse"></div>
+            </>
+          ) : (
+            <>
+              <h1 class="text-xl sm:text-2xl md:text-3xl font-bold">{film.title}</h1>
+              <p class="text-gray-400 mt-4 lg:text-2xl">{film.description}</p>
+            </>
+          )}
+          {filmId == 36? <a 
+           href="https://redstar-films.com/"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="mt-2 ">
+            <img
+                src="https://pub-152b68aa260243aaa2d232340cf0dd95.r2.dev/red.jpeg"
+                alt="REDSTAR"
+                class="w-[8rem] mt-2 lg:mr-21 object-cover"
+                width="150" height="300"
+              /> 
+              <p class="text-gray-600 mt-4 lg:text-lg">شكر خاص لشركة ريد ستار لتعاونها.</p>
+            </a>: null}
         </div>
       </div>
-  
+
       {/* Film Photography Section */}
       <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right text-gray-400">فوتوغرافيا الفيلم</h2>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
-        {frames.map((frame) => (
-          <a
-            key={frame.url}
-            href={frame.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block transform transition duration-300 hover:scale-105"
-          >
-            <div class="w-full aspect-video bg-gray-800 rounded-md shadow-md overflow-hidden">
-              <img
-                src={frame.url}
-                alt="Frame"
-                class="w-full h-full object-cover"
-                width="400" height="225"
-              />
-            </div>
-          </a>
-        ))}
-      </div>
-  
-      {/* BTS Section (Only if images exist) */}
-      {btsImages.length > 0 && (
-        <>
-          <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right text-gray-400">كواليس</h2>
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
-            {btsImages.map((image) => (
+        {isLoading
+          ? Array(8).fill(0).map((_, index) => (
+              <div key={index} class="w-full aspect-video bg-gray-800 rounded-md shadow-md overflow-hidden">
+                <div class="w-full h-full bg-gray-300 animate-pulse"></div>
+              </div>
+            ))
+          : frames.map((frame) => (
               <a
-                key={image.url}
-                href={image.url}
+                key={frame.url}
+                href={frame.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="block transform transition duration-300 hover:scale-105"
               >
                 <div class="w-full aspect-video bg-gray-800 rounded-md shadow-md overflow-hidden">
                   <img
-                    src={image.url}
-                    alt="BTS"
+                    src={frame.url}
+                    alt="Frame"
                     class="w-full h-full object-cover"
                     width="400" height="225"
                   />
                 </div>
               </a>
-            ))}
+            ))
+        }
+      </div>
+
+      {/* BTS Section (Only if images exist) */}
+      {btsImages.length > 0 && (
+        <>
+          <h2 class="mt-10 text-lg sm:text-xl md:text-2xl font-semibold text-right text-gray-400">كواليس</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
+            {isLoading
+              ? Array(4).fill(0).map((_, index) => (
+                  <div key={index} class="w-full aspect-video bg-gray-800 rounded-md shadow-md overflow-hidden">
+                    <div class="w-full h-full bg-gray-300 animate-pulse"></div>
+                  </div>
+                ))
+              : btsImages.map((image) => (
+                  <a
+                    key={image.url}
+                    href={image.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="block transform transition duration-300 hover:scale-105"
+                  >
+                    <div class="w-full aspect-video bg-gray-800 rounded-md shadow-md overflow-hidden">
+                      <img
+                        src={image.url}
+                        alt="BTS"
+                        class="w-full h-full object-cover"
+                        width="400" height="225"
+                      />
+                    </div>
+                  </a>
+                ))
+            }
           </div>
         </>
       )}
     </div>
   );
-  
-  
 }

@@ -25,10 +25,18 @@ interface DataContextType {
   music: Record<number, string[]>;
 }
 
-export const DataContext = createContext<DataContextType | null>(null);
+export const DataContext = createContext<DataContextType>({
+  directors: {},
+  films: {},
+  music: {},
+});
 
 export function DataProvider({ children }: { children: preact.ComponentChildren }) {
-  const [data, setData] = useState<DataContextType | null>(null);
+  const [data, setData] = useState<DataContextType>({
+    directors: {},
+    films: {},
+    music: {},
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -92,12 +100,6 @@ export function DataProvider({ children }: { children: preact.ComponentChildren 
 
     fetchData();
   }, []);
-
-  if (!data) return (
-    <div class = "bg-black">
-          <p class = "text-right text-gray-500">جار التحميل...</p>
-    </div>
-  );
 
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
 }

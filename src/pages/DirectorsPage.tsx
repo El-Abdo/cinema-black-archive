@@ -1,12 +1,13 @@
 import { useContext, useState, useEffect } from "preact/hooks";
 import { useLocation } from "preact-iso";
 import { DataContext } from "../context/DataContext";
-import DirectorCard from "../components/DirectorCard";
-import NotFound from "./NotFound";
+import Card from "../components/Card";
+import PlaceholderCard from "../components/PlaceHolderCard";
 import Hero from "../components/Hero";
 import Search from "../components/Search";
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 8;
+
 
 export default function DirectorPage() {
     const location = useLocation();
@@ -14,10 +15,11 @@ export default function DirectorPage() {
     const initialPage = parseInt(query.get("page") || "1", 10);
 
     const data = useContext(DataContext);
-    if (!data) return null;
 
     const directors = Object.values(data.directors);
-    if (!directors.length) return <NotFound />;
+
+    const isLoading = !directors.some(director => director.id);
+
 
     const [currentPage, setCurrentPage] = useState<number>(initialPage);
     const totalPages: number = Math.ceil(directors.length / ITEMS_PER_PAGE);
@@ -34,10 +36,13 @@ export default function DirectorPage() {
         window.history.pushState({}, "", newUrl);
     }, [currentPage]);
 
-    const displayedDirectors = directors.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
-    );
+
+    const displayedDirectors = isLoading 
+        ? Array(ITEMS_PER_PAGE).fill({}) 
+        : directors.slice(
+            (currentPage - 1) * ITEMS_PER_PAGE,
+            currentPage * ITEMS_PER_PAGE
+        );
 
     return (
 
@@ -53,12 +58,24 @@ export default function DirectorPage() {
                     />
                     
                 </Hero>
+
+                
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6 place-items-center">
-                    {displayedDirectors.map((director) => (
-                        <a href={`/directors/${director.id}`} key={director.id}>
-                            <DirectorCard key={director.id + 1} director={director} />
-                        </a>
-                    ))}
+                    {isLoading
+                                ? Array(ITEMS_PER_PAGE).fill(0).map((_, index) => (
+                                    <PlaceholderCard key={`placeholder-${index}`} />
+                                ))
+                                : displayedDirectors.map((director) => (
+                                     <a href={`/directors/${director.id}`} key={director.id}>
+                                        <Card
+                                            title={director.name}
+                                            description={director.bio}
+                                            imageUrl={director.portrait_url}
+                                            placeholderImage="/Portrait_Placeholder.png"
+                                        />
+                                    </a>
+                                ))
+                    }
                 </div>
 
                 {/* Pagination */}
