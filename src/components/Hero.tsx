@@ -9,7 +9,11 @@ interface HeroProps {
 const Hero = ({ image, title, children }: HeroProps) => {
     return (
         <section
-            class="relative w-full min-h-[650px] md:min-h-[750px] lg:h-[1000px] bg-cover bg-center flex flex-col items-center justify-center text-center px-2"
+            class={`relative w-full ${
+                        title
+                        ? "h-[70vh]"
+                        : "h-[75vh]"
+                    }  bg-cover bg-center flex flex-col items-center justify-center text-center px-2`}
             style={{ backgroundImage: `url(${image})` }}
         >
             {/* Overlay */}

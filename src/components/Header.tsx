@@ -30,6 +30,7 @@ const Header = () => {
     const generateBreadcrumbs = (currentPath: string) => {
         const result = [{ name: "الصفحة الرئيسية", url: "/" }];
         const pathParts = currentPath.split("/").filter(Boolean);
+        if (pathParts.length === 0) return result;
         const previousPath = sessionStorage.getItem("previousPath") || "";
         
         // Check if we're on a film page and came from a director page
