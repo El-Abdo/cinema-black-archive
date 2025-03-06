@@ -35,7 +35,7 @@ export default function FilmPage() {
     fetchImages();
   }, [filmId]);
 
-  const isLoading = !film || frames.length === 0;
+  const isLoading = !film;
 
   return (
     <div class="p-4 sm:p-6 max-w-screen-xl mx-auto">
