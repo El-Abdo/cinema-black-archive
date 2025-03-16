@@ -41,8 +41,12 @@ const Hero = ({ image, title, children }: HeroProps) => {
                     </a>
                     <a href="/films" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
                         الأفلام
-                    </a>                    <a href="/music" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
+                    </a>
+                    <a href="/music" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
                         موسيقى تصويرية
+                    </a>
+                    <a href="/posters" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
+                        الأفيشات 
                     </a>
                 </div>
             </div>

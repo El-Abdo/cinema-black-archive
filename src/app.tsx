@@ -8,6 +8,8 @@ import FilmMusicPage from "./pages/FilmMusic";
 import Header from './components/Header';
 import DirectorsPage from "./pages/DirectorsPage";
 import FilmsPage from "./pages/FilmsPage";
+import PosterPage from "./pages/PosterPage";
+import PostersPage from "./pages/PostersPage";
 
 export default function App() {
   
@@ -17,12 +19,14 @@ export default function App() {
         <Header />
           <Router>
             <Route path="/" component={Home} />
-            <Route path="/directors/:id" component={DirectorPage} />
             <Route path="/directors" component={DirectorsPage} />
-            <Route path="/films/:id" component={FilmPage} />
+            <Route path="/directors/:id" component={DirectorPage} />
             <Route path="/films" component={FilmsPage} />
+            <Route path="/films/:id" component={FilmPage} />
             <Route path="/music" component={MusicPage} />
             <Route path="/music/:id" component={FilmMusicPage} />
+            <Route path="/posters" component={PostersPage} />
+            <Route path="/posters/:id" component={PosterPage} />
             <Route default component={NotFound} />
           </Router>
       </ErrorBoundary>

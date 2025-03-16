@@ -88,6 +88,8 @@ const Header = () => {
                 result.push({ name: "المخرجين", url: "/directors" });
             } else if (part === "films") {
                 result.push({ name: "الأفلام", url: "/films" });
+            }else if (part === "posters") {
+                result.push({ name: "الأفيشات", url: "/posters" });
             } else if (part === "music") {
                 result.push({ name: "موسيقى تصويرية", url: "/music" });
             } else {
@@ -99,6 +101,8 @@ const Header = () => {
                         result.push({ name: directors[id].name, url: `/directors/${id}` });
                     } else if (prevPart === "films" && films[id]) {
                         result.push({ name: films[id].title, url: `/films/${id}` });
+                    }else if (prevPart === "posters" && films[id]) {
+                        result.push({ name: films[id].title, url: `/posters/${id}` });
                     } else if (prevPart === "music" && films[id]) {
                         // For music/filmID, add the film title as a breadcrumb
                         result.push({ name: films[id].title, url: `/films/${id}` });
