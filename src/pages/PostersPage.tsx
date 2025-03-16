@@ -82,8 +82,8 @@ export default function FilmsPage() {
                             isLoading ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                     >
-                        <option value="most_posters">الأكثر أفيشات</option>
-                        <option value="least_posters">الأقل أفيشات</option>
+                        <option value="most_posters">الأكثر</option>
+                        <option value="least_posters">الأقل</option>
                     </select>
                 </div>
             </div>

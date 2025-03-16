@@ -7,47 +7,59 @@ interface HeroProps {
 }
 
 const Hero = ({ image, title, children }: HeroProps) => {
+    const buttons = [
+        { href: "/directors", label: "المخرجين", bg: "/directors.webp" },
+        { href: "/films", label: "الأفلام", bg: "/films.webp" },
+        { href: "/music", label: "موسيقى تصويرية", bg: "/music.webp" },
+        { href: "/posters", label: "الأفيشات", bg: "/posters.webp" },
+    ];
+
     return (
         <section
-            class={`relative w-full ${
-                        title
-                        ? "h-[70vh]"
-                        : "h-[75vh]"
-                    }  bg-cover bg-center flex flex-col items-center justify-center text-center px-2`}
+            class="relative w-full h-[70vh] bg-cover bg-center flex flex-col items-center justify-center text-center px-2"
             style={{ backgroundImage: `url(${image})` }}
         >
             {/* Overlay */}
             <div class="absolute inset-0 bg-black opacity-50"></div> 
-            
+
             {/* Content */}
             <div class="relative z-10 text-white px-2 py-3 max-w-[95%] w-full">
-                <h1
-                    class={`font-bold mb-6 max-w-full px-4 ${
-                        title
-                        ? "text-xl sm:text-4xl md:text-4xl lg:text-7xl"
-                        : "text-3xl sm:text-6xl md:text-6xl lg:text-8xl"
-                    }`}
-                    >
+                <h1 class="font-bold mb-6 text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
                     {title || "Cinema Black Archive"}
                 </h1>
 
                 {/* Children (e.g., Search Bar) */}
                 {children && <div class="flex mt-3 justify-center">{children}</div>}
 
-                {/* Buttons */}
-                <div class="flex flex-wrap justify-center gap-2 mt-5 text-[15px] sm:text-xs md:text-lg">
-                    <a href="/directors" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
-                        المخرجين
-                    </a>
-                    <a href="/films" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
-                        الأفلام
-                    </a>
-                    <a href="/music" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
-                        موسيقى تصويرية
-                    </a>
-                    <a href="/posters" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
-                        الأفيشات 
-                    </a>
+                {/* Scrollable Button Carousel */}
+                <div class="relative w-full max-w-4xl mt-5">
+                    <div 
+                        class="flex gap-4 px-4 py-2 bg-black/50 rounded-lg shadow-lg overflow-x-auto scrollbar-thin 
+                               scrollbar-thumb-gray-700 scrollbar-track-gray-900 sm:justify-center"
+                        style={{ scrollSnapType: "x mandatory" }}
+                    >
+                        {buttons.map((button) => (
+                            <a
+                                key={button.href}
+                                href={button.href}
+                                class="relative min-w-[140px] sm:min-w-[180px] md:min-w-[220px] h-[90px] sm:h-[110px] md:h-[130px] rounded-lg overflow-hidden shadow-lg group snap-center"
+                            >
+                                {/* Background Image */}
+                                <div
+                                    class="absolute inset-0 bg-cover bg-center transition duration-300 group-hover:brightness-110"
+                                    style={{ backgroundImage: `url(${button.bg})` }}
+                                ></div>
+
+                                {/* Dark Overlay */}
+                                <div class="absolute inset-0 bg-black opacity-50 group-hover:opacity-30 transition"></div>
+
+                                {/* Text */}
+                                <span class="absolute inset-0 flex items-center justify-center text-white font-bold text-lg md:text-xl">
+                                    {button.label}
+                                </span>
+                            </a>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
