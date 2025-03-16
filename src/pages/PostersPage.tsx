@@ -14,13 +14,13 @@ export default function FilmsPage() {
     const initialPage = parseInt(query.get("page") || "1", 10);
 
     const data = useContext(DataContext);
-    const films = Object.values(data?.films || {});
+    const films = Object.values(data?.films || {}).filter(film => film.poster_urls?.length > 0);
 
     // Check if films are actually loaded (not just empty objects)
     const isLoading = !films.some(film => film.id);
 
     const [currentPage, setCurrentPage] = useState<number>(initialPage);
-    const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+    const [sortOrder, setSortOrder] = useState<"most_posters" | "least_posters">("most_posters");
 
     useEffect(() => {
         const newUrl = `?page=${currentPage}`;
@@ -29,8 +29,12 @@ export default function FilmsPage() {
 
     // Only sort if films are loaded
     if (!isLoading) {
-        films.sort((a, b) => (sortOrder === "newest" ? b.release_year - a.release_year : a.release_year - b.release_year));
-    }
+        films.sort((a, b) => {
+            const countA = a.poster_urls?.length || 0;
+            const countB = b.poster_urls?.length || 0;
+            return sortOrder === "most_posters" ? countB - countA : countA - countB;
+        });
+    }   
 
     const totalPages: number = isLoading ? 1 : Math.ceil(films.length / ITEMS_PER_PAGE);
 
@@ -43,7 +47,7 @@ export default function FilmsPage() {
 
     const handleSortChange = (event: Event) => {
         const value = (event.target as HTMLSelectElement).value;
-        setSortOrder(value as "newest" | "oldest");
+        setSortOrder(value as "most_posters" | "least_posters");
     };
 
     const displayedFilms = isLoading 
@@ -58,7 +62,7 @@ export default function FilmsPage() {
             <Hero title="الأفيشات" image="/posters.webp">                
                 <Search 
                     data={Object.values(data.films)} 
-                    placeholder="ابحث عن فيلم..." 
+                    placeholder="ابحث عن أفيشات فيلم..." 
                     searchFields={["title", "description"]} 
                     getLink={(film) => `/posters/${film.id}`} 
                     getDisplayText={(film) => film.title} 
@@ -78,8 +82,8 @@ export default function FilmsPage() {
                             isLoading ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                     >
-                        <option value="newest">الأحدث</option>
-                        <option value="oldest">الأقدم</option>
+                        <option value="most_posters">الأكثر أفيشات</option>
+                        <option value="least_posters">الأقل أفيشات</option>
                     </select>
                 </div>
             </div>
@@ -94,7 +98,7 @@ export default function FilmsPage() {
                         <a href={`/posters/${film.id}`} key={film.id}>
                             <Card
                                 title={film.title}
-                                subtitle={`سنة الصدور: ${film.release_year}`}
+                                subtitle={`عدد الأفيشات : ${film.poster_urls?.length }`}
                                 imageUrl={film.poster_urls[0]}
                                 placeholderImage="/placeholder.webp"
                             />

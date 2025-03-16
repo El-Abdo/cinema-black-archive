@@ -25,7 +25,7 @@ export default function FilmMusicPage() {
         {" - الموسيقى التصويرية"}
       </h1>
         <img
-          src={film.poster_url || "/placeholder.webp"}
+          src={film.poster_urls[0] || "/placeholder.webp"}
           alt={film.title}
           class="w-72 sm:w-96 mx-auto object-cover rounded-lg shadow-lg"
         />
