@@ -48,7 +48,7 @@ export default function DirectorPage() {
 
             <div class="w-full max-w-screen-xl mx-auto p-4">
                 {/* Hero Section with Embedded Search */}
-                <Hero title="المخرجين" image="/cover.PNG">
+                <Hero title="المخرجين" image="/directors.webp">
                     <Search 
                         data={Object.values(data.directors)} 
                         placeholder="ابحث عن مخرج..." 
@@ -71,7 +71,7 @@ export default function DirectorPage() {
                                             title={director.name}
                                             description={director.bio}
                                             imageUrl={director.portrait_url}
-                                            placeholderImage="/Portrait_Placeholder.png"
+                                            placeholderImage="/Portrait_Placeholder.webp"
                                         />
                                     </a>
                                 ))

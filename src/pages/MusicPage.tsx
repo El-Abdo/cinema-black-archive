@@ -28,7 +28,7 @@ export default function MusicPage() {
 
   return (
     <div class="w-full max-w-screen-xl mx-auto p-4">
-      <Hero title="الموسيقى التصويرية" image="/cover.PNG" />                
+      <Hero title="الموسيقى التصويرية" image="/music.webp" />                
       
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 my-6 place-items-center">
@@ -44,7 +44,7 @@ export default function MusicPage() {
                                                     title={film.title}
                                                     subtitle={`سنة الصدور: ${film.release_year}`}
                                                     imageUrl={film.poster_url}
-                                                    placeholderImage="/placeholder.jpg"
+                                                    placeholderImage="/placeholder.webp"
                                                   />
                                   </a>
                                 );

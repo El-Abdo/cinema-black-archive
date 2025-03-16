@@ -1,5 +1,5 @@
 import './404.css';
-import notFoundImage from '../notfound.png'; 
+import notFoundImage from '../notfound.webp'; 
 
 const NotFound = () => {
   return (

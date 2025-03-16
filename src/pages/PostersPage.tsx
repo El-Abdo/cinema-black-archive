@@ -55,7 +55,7 @@ export default function FilmsPage() {
 
     return (
         <div class="w-full max-w-screen-xl mx-auto px-4 bg-black">
-            <Hero title="الأفيشات" image="/cover.PNG">                
+            <Hero title="الأفيشات" image="/posters.webp">                
                 <Search 
                     data={Object.values(data.films)} 
                     placeholder="ابحث عن فيلم..." 
@@ -96,7 +96,7 @@ export default function FilmsPage() {
                                 title={film.title}
                                 subtitle={`سنة الصدور: ${film.release_year}`}
                                 imageUrl={film.poster_url}
-                                placeholderImage="/placeholder.jpg"
+                                placeholderImage="/placeholder.webp"
                             />
                         </a>
                     ))

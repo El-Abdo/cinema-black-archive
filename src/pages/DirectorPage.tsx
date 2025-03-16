@@ -31,7 +31,7 @@ export default function DirectorPage() {
       ) : (
         <div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
           <img
-            src={director?.portrait_url || "/Portrait_Placeholder.png"}
+            src={director?.portrait_url || "/Portrait_Placeholder.webp"}
             alt={director?.name}
             class="w-32 h-32 sm:w-40 sm:h-40 object-cover rounded-full border border-gray-300 shadow-md"
           />
@@ -54,7 +54,7 @@ export default function DirectorPage() {
                   title={film.title}
                   subtitle={`سنة الصدور: ${film.release_year}`}
                   imageUrl={film.poster_url}
-                  placeholderImage="/placeholder.jpg"
+                  placeholderImage="/placeholder.webp"
                 />
               </a>
             ))
