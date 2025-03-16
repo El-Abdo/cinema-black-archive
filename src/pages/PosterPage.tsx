@@ -1,33 +1,14 @@
-import { useState, useEffect, useContext } from "preact/hooks";
-import { supabase } from "../utils/supabase";
+import { useContext } from "preact/hooks";
 import { useLocation } from "preact-iso";
 import { DataContext } from "../context/DataContext";
-
-interface Image {
-  url: string;
-}
 
 export default function PosterPage() {
   const location = useLocation();
   const filmId = parseInt(location.path.split("/").pop() || "0", 10);
   const data = useContext(DataContext);
 
-  const [posters, setPosters] = useState<Image[]>([]);
-
   // Get film details from context
   const film = data.films[filmId];
-
-  useEffect(() => {
-    async function fetchPosters() {
-      const { data: postersData } = await supabase
-        .from("film_posters")
-        .select("poster_url")
-        .eq("film_id", filmId);
-      setPosters((postersData || []).map((item: { poster_url: string }) => ({ url: item.poster_url })));
-    }
-    fetchPosters();
-  }, [filmId]);
-
   const isLoading = !film;
 
   return (
@@ -39,9 +20,9 @@ export default function PosterPage() {
           {isLoading ? (
             <div class="w-full h-full bg-gray-300 animate-pulse"></div>
           ) : (
-            film.poster_url && (
+            film.poster_urls?.length > 0 && (
               <img
-                src={film.poster_url}
+                src={film.poster_urls[0]}
                 alt={film.title}
                 class="w-full h-full object-cover"
                 width="320" height="480"
@@ -75,17 +56,17 @@ export default function PosterPage() {
                 <div class="w-full h-full bg-gray-300 animate-pulse"></div>
               </div>
             ))
-          : posters.map((poster) => (
+          : (film.poster_urls || []).map((posterUrl) => (
               <a
-                key={poster.url}
-                href={poster.url}
+                key={posterUrl}
+                href={posterUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="block transform transition duration-300 hover:scale-105"
               >
                 <div class="w-full aspect-[2/3] bg-gray-800 rounded-md shadow-md overflow-hidden">
                   <img
-                    src={poster.url}
+                    src={posterUrl}
                     alt="Poster"
                     class="w-full h-full object-cover"
                     width="400" height="600"

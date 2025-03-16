@@ -46,9 +46,9 @@ export default function FilmPage() {
           {isLoading ? (
             <div class="w-full h-full bg-gray-300 animate-pulse"></div>
           ) : (
-            film.poster_url && (
+            film.poster_urls && (
               <img
-                src={film.poster_url}
+                src={film.poster_urls[0]}
                 alt={film.title}
                 class="w-full h-full object-cover"
                 width="320" height="480"

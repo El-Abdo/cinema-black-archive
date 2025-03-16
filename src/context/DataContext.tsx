@@ -16,7 +16,7 @@ interface Film {
   title: string;
   description: string;
   release_year: number;
-  poster_url: string;
+  poster_urls: string[];
 }
 
 interface DataContextType {
@@ -55,11 +55,12 @@ export function DataProvider({ children }: { children: preact.ComponentChildren 
       });
 
       // Organize posters
-      const filmPosters: Record<number, string> = {};
+      const filmPosters: Record<number, string[]> = {};
       postersData?.forEach(({ film_id, poster_url }) => {
         if (!filmPosters[film_id]) {
-          filmPosters[film_id] = poster_url;
+          filmPosters[film_id] = [];
         }
+        filmPosters[film_id].push(poster_url);
       });
 
       // Organize music data
@@ -86,7 +87,7 @@ export function DataProvider({ children }: { children: preact.ComponentChildren 
       filmsData?.forEach((f) => {
         const film = {
           ...f,
-          poster_url: filmPosters[f.id] || "",
+          poster_urls: filmPosters[f.id] || [],
         };
         films[f.id] = film;
 

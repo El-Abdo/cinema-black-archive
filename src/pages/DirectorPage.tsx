@@ -53,7 +53,7 @@ export default function DirectorPage() {
                 <Card
                   title={film.title}
                   subtitle={`سنة الصدور: ${film.release_year}`}
-                  imageUrl={film.poster_url}
+                  imageUrl={film.poster_urls[0]}
                   placeholderImage="/placeholder.webp"
                 />
               </a>
