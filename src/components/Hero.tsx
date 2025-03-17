@@ -32,7 +32,7 @@ const Hero = ({ image, title, children }: HeroProps) => {
                 {children && <div class="flex mt-3 justify-center">{children}</div>}
 
                 {/* Scrollable Button Carousel */}
-                <div class="relative w-full max-w-4xl mt-5">
+                <div class="relative w-full max-w-4xl mt-5 mx-auto">
                     <div 
                         class="flex gap-4 px-4 py-2 bg-black/50 rounded-lg shadow-lg overflow-x-auto scrollbar-thin 
                                scrollbar-thumb-gray-700 scrollbar-track-gray-900 sm:justify-center"

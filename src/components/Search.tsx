@@ -51,7 +51,7 @@ export default function Search<T>({
                 class="w-full p-2 rounded-md border border-gray-600 bg-gray-900 text-white text-sm focus:ring-2 focus:ring-blue-500"
             />
             {isOpen && filteredResults.length > 0 && (
-                <div class="absolute bg-gray-800 text-white shadow-lg mt-1 w-full rounded-md max-h-60 overflow-auto border border-gray-600">
+                <div class="absolute z-50 bg-gray-800 text-white shadow-lg mt-1 w-full rounded-md max-h-60 overflow-auto border border-gray-600">
                     {filteredResults.map((item) => (
                         <a
                             key={getLink(item)}
