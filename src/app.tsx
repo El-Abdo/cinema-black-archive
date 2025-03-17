@@ -10,6 +10,7 @@ import DirectorsPage from "./pages/DirectorsPage";
 import FilmsPage from "./pages/FilmsPage";
 import PosterPage from "./pages/PosterPage";
 import PostersPage from "./pages/PostersPage";
+import About from "./pages/AboutPage";
 
 export default function App() {
   
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/music" component={MusicPage} />
             <Route path="/music/:id" component={FilmMusicPage} />
             <Route path="/posters" component={PostersPage} />
+            <Route path="/about" component={About} />
             <Route path="/posters/:id" component={PosterPage} />
             <Route default component={NotFound} />
           </Router>

@@ -70,19 +70,6 @@ export default function FilmPage() {
               <p class="text-gray-400 mt-4 lg:text-2xl">{film.description}</p>
             </>
           )}
-          {filmId == 36? <a 
-           href="https://redstar-films.com/"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="mt-2 ">
-            <img
-                src="https://pub-152b68aa260243aaa2d232340cf0dd95.r2.dev/red.jpeg"
-                alt="REDSTAR"
-                class="w-[8rem] mt-2 lg:mr-21 object-cover"
-                width="150" height="300"
-              /> 
-              <p class="text-gray-600 mt-4 lg:text-lg">شكر خاص لشركة ريد ستار لتعاونها.</p>
-            </a>: null}
         </div>
       </div>
 

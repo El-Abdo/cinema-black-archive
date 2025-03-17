@@ -88,6 +88,8 @@ const Header = () => {
                 result.push({ name: "المخرجين", url: "/directors" });
             } else if (part === "films") {
                 result.push({ name: "الأفلام", url: "/films" });
+            }else if (part === "about") {
+                result.push({ name: "عنّا", url: "/about" });
             }else if (part === "posters") {
                 result.push({ name: "الأفيشات", url: "/posters" });
             } else if (part === "music") {
